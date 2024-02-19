@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "name": "vue3-learn",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/llx123/vue3-learn.git",
+  "author": "lxli <573381010@qq.com>",
+  "license": "MIT"
+}
