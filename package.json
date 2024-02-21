@@ -3,6 +3,10 @@
   "workspaces": [
     "packages/*"
   ],
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
   "name": "vue3-learn",
   "version": "1.0.0",
   "main": "index.js",
@@ -10,6 +14,11 @@
   "author": "lxli <573381010@qq.com>",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "execa": "^8.0.1",
+    "rollup": "^4.12.0",
+    "rollup-plugin-typescript2": "^0.36.0",
     "typescript": "^5.3.3"
   }
 }
