@@ -10,7 +10,7 @@ run();
 
 async function run() {
   console.log(allTargets);
-  await buildAll(allTargets)
+  await buildAll(allTargets);
 }
 /**
  * 并行构建所有目标
@@ -40,5 +40,7 @@ async function runParallel(maxConcurrency, source, iteratorFn) {
 }
 
 async function build(target) {
-  await execa('rollup', ['-c', '--environment', `TARGET:${target}`])
+  await execa("rollup", ["-c", "--environment", `TARGET:${target}`], {
+    stdio: "inherit", // 执行时的标准输入、输出和错误流继承自父进程
+  });
 }
