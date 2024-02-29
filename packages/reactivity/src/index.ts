@@ -1,3 +1,6 @@
 export {
-  reactive
+  reactive,
+  readonly,
+  shallowReactive,
+  shallowReadonly,
 } from './reactive'
