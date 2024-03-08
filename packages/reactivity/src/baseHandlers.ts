@@ -1,8 +1,10 @@
 
 import { ReactiveFlags } from "./constants"
-import { type Target, reactiveMap, shallowReactiveMap, readonlyMap, shallowReadonlyMap } from "./reactive"
-export const mutableHandlers: ProxyHandler<object> = new MutableReactiveHandler()
-export const shallowReactiveHandlers = {}
+import { type Target, reactiveMap, shallowReactiveMap, readonlyMap, shallowReadonlyMap, readonly, reactive } from "./reactive"
+import { hasOwn, isArray, isObject } from "@vue/shared"
+
+
+
 class BaseReactiveHandler implements ProxyHandler<Target> {
   constructor(
     protected readonly _isReadonly = false,
@@ -31,9 +33,35 @@ class BaseReactiveHandler implements ProxyHandler<Target> {
       }
       return
     }
+
+    const targetIsArray = isArray(target)
+
+    if (!isReadonly) {
+      if (targetIsArray) {
+        // 数组的依赖收集
+      }
+    }
+
+    const res = Reflect.get(target, key, receiver)
+
+    if (!isReadonly) { // 依赖手机
+
+    }
+
+    if (isShallow) {
+      return res
+    }
+    if (isObject(res)) {
+      // 懒代理 使用时才引用
+      return isReadonly ? readonly(res) : reactive(res)
+    }
+    return res
   }
 }
 
 class MutableReactiveHandler extends BaseReactiveHandler {
 
 }
+
+export const mutableHandlers: ProxyHandler<object> = new MutableReactiveHandler()
+export const shallowReactiveHandlers = {}
