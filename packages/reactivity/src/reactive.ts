@@ -2,6 +2,12 @@ import { isObject, toRawType } from "@vue/shared"
 import { ReactiveFlags } from "./constants"
 import { mutableHandlers, shallowReactiveHandlers } from "./baseHandlers"
 
+declare const RefSymbol: unique symbol
+declare const RawSymbol: unique symbol
+export interface Ref<T = any> {
+  value: T,
+  [RefSymbol]: true
+}
 export interface Target {
   [ReactiveFlags.SKIP]?: boolean
   [ReactiveFlags.IS_REACTIVE]?: boolean
@@ -72,6 +78,23 @@ export function isReadonly(value: unknown): boolean {
   return !!(value && (value as Target)[ReactiveFlags.IS_READONLY])
 }
 
+export function isShallow(value: unknown): boolean {
+  return !!(value && (value as Target)[ReactiveFlags.IS_SHALLOW])
+}
+
+export function toRaw<T>(observed: T): T {
+  // 如果为真，它会递归地调用 toRaw(raw)，以确保返回的是最原始的对象
+  // （因为在某些情况下，raw 可能还是一个被包装的响应式对象）。
+  const raw = observed && (observed as Target)[ReactiveFlags.RAW]
+  return raw ? toRaw(raw) : observed
+}
+
+
+export function isRef<T>(r: Ref<T> | unknown): r is Ref<T>
+export function isRef(r: any): r is Ref {
+  return !!(r && r.__v__isRef === true)
+}
+
 function targetTypeMap(rawType: string) {
   switch (rawType) {
     case 'Object':
@@ -90,5 +113,5 @@ function targetTypeMap(rawType: string) {
 // 标记跳过或不可扩展
 function getTargetType(value: Target) {
   return value[ReactiveFlags.SKIP] || !Object.isExtensible(value)
-  ?TargetType.INVALID :targetTypeMap(toRawType(value))
+    ? TargetType.INVALID : targetTypeMap(toRawType(value))
 }
