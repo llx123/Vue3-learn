@@ -2,6 +2,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import json from "@rollup/plugin-json";
+import alias from "@rollup/plugin-alias";
 import esbuild from "rollup-plugin-esbuild";
 import resolvePlugin from "@rollup/plugin-node-resolve";
 
@@ -47,10 +48,16 @@ function createConfig(format, output) {
   }
   output.name = packageOptions.name;
   output.sourcemap = true;
+
   return {
     input: resolve("src/index.ts"),
     output,
     plugins: [
+      alias({
+        entries: {
+          "@vue/shared": path.resolve(__dirname, "packages/shared/src/index.ts"),
+        },
+      }),
       json({
         namedExports: false,
       }),
