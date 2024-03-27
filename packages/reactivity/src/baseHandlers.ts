@@ -15,8 +15,6 @@ import {
 } from "./reactive"
 import { hasOwn, isArray, isObject } from "@vue/shared"
 
-
-
 class BaseReactiveHandler implements ProxyHandler<Target> {
   constructor(
     protected readonly _isReadonly = false,
@@ -102,5 +100,17 @@ class MutableReactiveHandler extends BaseReactiveHandler {
   }
 }
 
+class ReadonlyReactiveHandler extends BaseReactiveHandler {
+  constructor(isShallow = false) {
+    super(true, isShallow)
+  }
+
+  set(target: object, key: string | symbol) {
+    console.warn(`${String(key)} is readonly`)
+    return true
+  }
+}
+
 export const mutableHandlers: ProxyHandler<object> = new MutableReactiveHandler()
+export const readonlyHandlers: ProxyHandler<object> = new ReadonlyReactiveHandler()
 export const shallowReactiveHandlers = {}

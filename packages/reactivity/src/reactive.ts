@@ -1,6 +1,6 @@
 import { isObject, toRawType } from "@vue/shared"
 import { ReactiveFlags } from "./constants"
-import { mutableHandlers, shallowReactiveHandlers } from "./baseHandlers"
+import { mutableHandlers, readonlyHandlers, shallowReactiveHandlers } from "./baseHandlers"
 
 declare const RefSymbol: unique symbol
 declare const RawSymbol: unique symbol
@@ -35,7 +35,7 @@ export function shallowReactive<T extends object>(target: T) {
 }
 
 export function readonly<T extends object>(target: T) {
-  return createReactiveObject(target, false, shallowReactiveHandlers, readonlyMap)
+  return createReactiveObject(target, false, readonlyHandlers, readonlyMap)
 }
 
 export function shallowReadonly() { }

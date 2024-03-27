@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="./reactivity/dist/reactivity.global.js"></script>
+
+  <script>
+    const { reactive, readonly } = VueReactivity;
+    var obj = reactive({ name: 'llx' })
+    var obj2 = readonly({ name: 'llx2' })
+    console.log(obj, 'obj');
+    console.log(obj.name);
+    console.log(obj2.name);
+    obj.name = 'llx123'
+    obj2.name = 'llx123'
+    console.log(obj.name);
+  </script>
+</body>
+
+</html>
