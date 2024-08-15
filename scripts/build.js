@@ -32,7 +32,7 @@ async function runParallel(maxConcurrency, source, iteratorFn) {
       }
     }
   }
-  return Promise.all(executing);
+  return Promise.all(ret);
 }
 
 async function build(target) {
