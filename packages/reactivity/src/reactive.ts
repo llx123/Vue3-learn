@@ -35,7 +35,7 @@ export function shallowReactive<T extends object>(target: T) {
 }
 
 export function readonly<T extends object>(target: T) {
-  return createReactiveObject(target, false, readonlyHandlers, readonlyMap)
+  return createReactiveObject(target, true, readonlyHandlers, readonlyMap)
 }
 
 export function shallowReadonly() { }
